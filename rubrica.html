@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LATTICE OS — Rúbrica de Evaluación</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #060b14;
+      --surface: #0a1628;
+      --border:  #1a2d4a;
+      --accent:  #00ff9f;
+      --accent2: #00aaff;
+      --warn:    #ffaa00;
+      --danger:  #ff4444;
+      --text:    #94a3b8;
+      --text-hi: #e2e8f0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ── TOPBAR ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 28px;
+      height: 52px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky; top: 0; z-index: 10;
+    }
+    .brand        { display: flex; align-items: center; gap: 12px; }
+    .brand-logo   { width: 28px; height: 28px; }
+    .brand-name   { font-weight: 700; font-size: 16px; color: var(--text-hi); letter-spacing: 3px; }
+    .brand-pipe   { color: var(--border); margin: 0 6px; }
+    .brand-sub    { font-weight: 400; font-size: 11px; color: var(--text); letter-spacing: 2px; }
+    .topbar-right { display: flex; align-items: center; gap: 14px; }
+
+    .chip {
+      display: flex; align-items: center; gap: 6px;
+      padding: 4px 10px; border: 1px solid;
+      font-size: 11px; font-weight: 600; letter-spacing: 1.5px;
+    }
+    .chip-green  { border-color: var(--accent);  color: var(--accent); }
+    .chip-orange { border-color: var(--warn);    color: var(--warn); }
+
+    .blink {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: currentColor; animation: blink 1.5s infinite;
+    }
+    @keyframes blink { 0%,100%{ opacity:1 } 50%{ opacity:.2 } }
+
+    /* ── LAYOUT ── */
+    .page-wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 36px 24px 60px;
+    }
+
+    /* ── CABECERA DEL DOCUMENTO ── */
+    .doc-header {
+      border-left: 3px solid var(--accent);
+      padding: 18px 20px;
+      background: rgba(0,255,159,.03);
+      margin-bottom: 36px;
+    }
+    .doc-header__eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 3px;
+      color: var(--accent); margin-bottom: 8px;
+    }
+    .doc-header__title {
+      font-size: 26px; font-weight: 700; color: var(--text-hi);
+      letter-spacing: 2px; line-height: 1.2; margin-bottom: 6px;
+    }
+    .doc-header__sub {
+      font-size: 12px; color: var(--text); letter-spacing: 1px;
+    }
+
+    /* ── SECCIONES ── */
+    .section { margin-bottom: 40px; }
+
+    .section-title {
+      font-size: 10px; font-weight: 700; letter-spacing: 2.5px;
+      color: var(--accent); padding: 8px 0 8px 0;
+      border-bottom: 1px solid var(--border); margin-bottom: 18px;
+    }
+
+    /* ── CONTEXTO ── */
+    .context-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent2);
+      padding: 16px 20px;
+      font-size: 13px; line-height: 1.7; color: var(--text);
+    }
+    .context-box strong { color: var(--text-hi); }
+
+    /* ── FUNCIONES GRID ── */
+    .fn-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .fn-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+    }
+    .fn-card__num {
+      font-size: 9px; font-weight: 700; letter-spacing: 2px;
+      color: var(--accent2); margin-bottom: 6px;
+    }
+    .fn-card__name {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; color: var(--accent); margin-bottom: 8px;
+    }
+    .fn-card__desc {
+      font-size: 12px; color: var(--text); line-height: 1.6;
+    }
+    .fn-card__concept {
+      margin-top: 10px; font-size: 10px; font-weight: 700;
+      letter-spacing: 1px; color: var(--warn);
+    }
+
+    /* ── ACEPTACIÓN ── */
+    .checklist {
+      list-style: none;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+    .checklist li {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 10px 16px; font-size: 13px; color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .checklist li::before {
+      content: "☐";
+      color: var(--accent); font-size: 14px; flex-shrink: 0; line-height: 1.4;
+    }
+
+    /* ── RESTRICCIONES ── */
+    .restrictions {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--danger);
+      overflow: hidden;
+    }
+    .restrictions li {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 9px 16px; font-size: 13px; color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+    .restrictions li:last-child { border-bottom: none; }
+    .restrictions .r-num {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 11px; color: var(--danger); flex-shrink: 0; padding-top: 1px;
+    }
+
+    /* ── RÚBRICA GENERAL ── */
+    .rubric-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .rubric-table th {
+      background: var(--surface);
+      color: var(--accent);
+      font-size: 10px; font-weight: 700; letter-spacing: 1.5px;
+      padding: 10px 14px;
+      border: 1px solid var(--border);
+      text-align: left;
+    }
+    .rubric-table td {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: top;
+    }
+    .rubric-table tr:nth-child(even) td { background: rgba(255,255,255,.015); }
+    .rubric-table tr:hover td { background: rgba(0,170,255,.04); }
+
+    .rubric-table td.td-fn  {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; color: var(--accent); white-space: nowrap;
+    }
+    .rubric-table td.td-pts {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 14px; color: var(--text-hi); text-align: center;
+      font-weight: 700;
+    }
+    .rubric-table td.td-pts-total {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 18px; color: var(--accent); text-align: center;
+      font-weight: 700; background: rgba(0,255,159,.06) !important;
+    }
+    .rubric-table tr.tr-total td {
+      border-top: 2px solid var(--accent);
+      font-weight: 700; color: var(--text-hi);
+    }
+
+    /* ── BLOQUES DE CRITERIO INDIVIDUAL ── */
+    .criterio-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .criterio-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 10px 16px;
+      background: rgba(0,170,255,.05);
+      border-bottom: 1px solid var(--border);
+    }
+    .criterio-header__title {
+      font-size: 13px; font-weight: 700; color: var(--text-hi); letter-spacing: 1px;
+    }
+    .criterio-header__fn {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 12px; color: var(--accent); margin-left: 10px;
+    }
+    .criterio-header__pts {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 16px; color: var(--accent2); font-weight: 700;
+    }
+
+    .indicadores-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .indicadores-table th {
+      background: rgba(0,0,0,.2);
+      color: var(--text); font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; padding: 7px 14px;
+      border-bottom: 1px solid var(--border); text-align: left;
+    }
+    .indicadores-table td {
+      padding: 8px 14px; border-bottom: 1px solid var(--border); color: var(--text);
+    }
+    .indicadores-table tr:last-child td { border-bottom: none; }
+    .indicadores-table td.i-pts {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; color: var(--text-hi); text-align: center; font-weight: 700;
+      width: 60px;
+    }
+
+    .escala-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .escala-table thead th {
+      background: rgba(0,0,0,.2);
+      color: var(--text); font-size: 9px; font-weight: 700;
+      letter-spacing: 1.5px; padding: 7px 14px;
+      border-bottom: 1px solid var(--border); text-align: left;
+    }
+    .escala-table td {
+      padding: 8px 14px; border-bottom: 1px solid var(--border); color: var(--text);
+      font-size: 12px;
+    }
+    .escala-table tr:last-child td { border-bottom: none; }
+    .escala-table td.e-pts {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; font-weight: 700; width: 70px; text-align: center;
+    }
+    .e-pts-full   { color: var(--accent); }
+    .e-pts-mid    { color: var(--accent2); }
+    .e-pts-low    { color: var(--warn); }
+    .e-pts-none   { color: var(--danger); }
+
+    .subtable-title {
+      font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+      color: var(--text); padding: 7px 14px 4px;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,.15);
+    }
+
+    /* ── ESCALA SENA ── */
+    .sena-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .sena-table th {
+      background: var(--surface);
+      color: var(--accent); font-size: 10px; font-weight: 700;
+      letter-spacing: 1.5px; padding: 10px 18px;
+      border: 1px solid var(--border); text-align: left;
+    }
+    .sena-table td {
+      padding: 10px 18px;
+      border: 1px solid var(--border);
+      font-weight: 600;
+    }
+    .sena-table td.s-range {
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 13px; text-align: center;
+    }
+    .sena-excelente   { color: var(--accent);  background: rgba(0,255,159,.05); }
+    .sena-sobresaliente{ color: var(--accent2); background: rgba(0,170,255,.05); }
+    .sena-aceptable   { color: var(--warn);    background: rgba(255,170,0,.04); }
+    .sena-insuficiente{ color: #ff8c00;         background: rgba(255,140,0,.04); }
+    .sena-deficiente  { color: var(--danger);   background: rgba(255,68,68,.04); }
+
+    /* ── FOOTER ── */
+    .page-footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 10px; letter-spacing: 2px; color: var(--border);
+      border-top: 1px solid var(--border);
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="brand">
+      <svg viewBox="0 0 24 24" class="brand-logo">
+        <polygon points="12,2 22,7 22,17 12,22 2,17 2,7" stroke="#00ff9f" stroke-width="1.5" fill="none"/>
+        <line x1="12" y1="2" x2="12" y2="22"  stroke="#00ff9f" stroke-width=".5" opacity=".4"/>
+        <line x1="2"  y1="7" x2="22" y2="17"  stroke="#00ff9f" stroke-width=".5" opacity=".4"/>
+        <line x1="2"  y1="17" x2="22" y2="7"  stroke="#00ff9f" stroke-width=".5" opacity=".4"/>
+      </svg>
+      <span class="brand-name">
+        ANDURIL
+        <span class="brand-pipe">|</span>
+        <span class="brand-sub">MACHINE SHOP · RÚBRICA DE EVALUACIÓN</span>
+      </span>
+    </div>
+    <div class="topbar-right">
+      <div class="chip chip-green"><span class="blink"></span>SENA 3406211</div>
+      <div class="chip chip-orange"><span class="blink"></span>100 PUNTOS</div>
+    </div>
+  </header>
+
+  <div class="page-wrap">
+
+    <!-- CABECERA DEL DOCUMENTO -->
+    <div class="doc-header">
+      <div class="doc-header__eyebrow">// ACTIVIDAD DE APRENDIZAJE — UNIDADES 1 · 2 · 3</div>
+      <div class="doc-header__title">Sistema de Inventario — Machine Shop<br>Anduril Industries</div>
+      <div class="doc-header__sub">
+        Programa: Tecnólogo en Análisis y Desarrollo de Software &nbsp;·&nbsp;
+        Conceptos: Variables · Tipos de Datos · Estructuras de Datos
+      </div>
+    </div>
+
+    <!-- SECCIÓN: CONTEXTO -->
+    <div class="section">
+      <div class="section-title">// CONTEXTO DEL PROYECTO</div>
+      <div class="context-box">
+        <strong>Anduril Industries</strong> es una empresa de tecnología de defensa que diseña y fabrica sistemas de
+        armas autónomas. Su planta de manufactura (machine shop) cuenta con una bodega en el Sector Alpha, Nivel B2,
+        donde se almacenan partes críticas para el ensamblaje de plataformas como el ALTIUS-600M y el Ghost-X.<br><br>
+        El equipo de operaciones ha desarrollado una interfaz web para gestionar el movimiento de partes en bodega.
+        La aplicación ya tiene implementado todo el sistema de navegación, presentación visual y acceso al DOM.
+        Sin embargo, <strong>el núcleo de cálculo no existe</strong>: las funciones que realizan las operaciones
+        aritméticas y de asignación de variables están vacías.<br><br>
+        Tu misión es implementar esas funciones para que el sistema de inventario opere correctamente.
+      </div>
+    </div>
+
+    <!-- SECCIÓN: FUNCIONES A IMPLEMENTAR -->
+    <div class="section">
+      <div class="section-title">// FUNCIONES A IMPLEMENTAR</div>
+      <div class="fn-grid">
+
+        <div class="fn-card">
+          <div class="fn-card__num">FUNCIÓN 1</div>
+          <div class="fn-card__name">calcularValorParte(parte)</div>
+          <div class="fn-card__desc">
+            Recibe un objeto parte del catálogo. Retorna el valor monetario total
+            de esa parte en bodega combinando la cantidad disponible con su precio
+            por unidad. El resultado es un <code>Number</code>.
+          </div>
+          <div class="fn-card__concept">↳ Variables · Operador de multiplicación</div>
+        </div>
+
+        <div class="fn-card">
+          <div class="fn-card__num">FUNCIÓN 2</div>
+          <div class="fn-card__name">calcularTotalInventario(listado)</div>
+          <div class="fn-card__desc">
+            Recibe el arreglo completo de partes. Recorre cada elemento y acumula
+            la suma de los valores individuales. Apóyate en la Función 1.
+            El resultado es el valor total del inventario en USD.
+          </div>
+          <div class="fn-card__concept">↳ Arreglos · Bucles · Acumulación</div>
+        </div>
+
+        <div class="fn-card">
+          <div class="fn-card__num">FUNCIÓN 3</div>
+          <div class="fn-card__name">registrarEntrada(idParte, cantidad)</div>
+          <div class="fn-card__desc">
+            Recibe el ID de una parte y la cantidad a ingresar. Modifica la
+            propiedad <code>cantidad</code> del objeto, incrementándola.
+            No debe superar <code>capacidad_maxima</code>. Retorna <code>true</code>.
+          </div>
+          <div class="fn-card__concept">↳ Asignación · Operador de suma</div>
+        </div>
+
+        <div class="fn-card">
+          <div class="fn-card__num">FUNCIÓN 4</div>
+          <div class="fn-card__name">registrarSalida(idParte, cantidad)</div>
+          <div class="fn-card__desc">
+            Recibe el ID y la cantidad a retirar. Verifica que haya stock suficiente.
+            Si no alcanza, retorna <code>false</code> sin tocar el objeto.
+            Si alcanza, descuenta las unidades y retorna <code>true</code>.
+          </div>
+          <div class="fn-card__concept">↳ Condicionales · Operador de resta · Boolean</div>
+        </div>
+
+        <div class="fn-card">
+          <div class="fn-card__num">FUNCIÓN 5</div>
+          <div class="fn-card__name">calcularPorcentajeOcupacion(parte)</div>
+          <div class="fn-card__desc">
+            Recibe un objeto parte. Retorna un número entre 0 y 100 que expresa
+            qué proporción de la capacidad máxima está ocupada actualmente.
+            Controla la barra visual del panel derecho.
+          </div>
+          <div class="fn-card__concept">↳ Operadores de división y multiplicación</div>
+        </div>
+
+        <div class="fn-card">
+          <div class="fn-card__num">FUNCIÓN 6</div>
+          <div class="fn-card__name">verificarStockMinimo(parte)</div>
+          <div class="fn-card__desc">
+            Recibe un objeto parte. Retorna <code>true</code> si la cantidad
+            actual ha alcanzado o caído por debajo del umbral de alerta,
+            <code>false</code> en caso contrario. Activa las alertas visuales.
+          </div>
+          <div class="fn-card__concept">↳ Operadores de comparación · Tipo Boolean</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECCIÓN: CRITERIOS DE ACEPTACIÓN -->
+    <div class="section">
+      <div class="section-title">// CRITERIOS DE ACEPTACIÓN FUNCIONAL</div>
+      <ul class="checklist">
+        <li>El panel inferior muestra el valor total del inventario en dólares (no <code>⚠ implementar función</code>).</li>
+        <li>Al hacer clic en cualquier parte, el panel derecho muestra el valor en stock y el porcentaje de ocupación.</li>
+        <li>La barra de ocupación se llena proporcionalmente a la cantidad actual vs. la capacidad máxima.</li>
+        <li>Las tarjetas del panel izquierdo muestran correctamente "OK", "BAJO STOCK" o "SIN STOCK" y cambian de color.</li>
+        <li>Al registrar una <strong>entrada</strong>, el stock de la parte aumenta y el log muestra la operación.</li>
+        <li>Al registrar una <strong>salida</strong> con stock suficiente, el stock disminuye y el log muestra la operación.</li>
+        <li>Al registrar una <strong>salida</strong> sin stock suficiente, aparece el mensaje de error en rojo y el stock no cambia.</li>
+        <li>El filtro "⚠ ALERTA" muestra únicamente las partes con stock bajo o crítico.</li>
+      </ul>
+    </div>
+
+    <!-- SECCIÓN: RESTRICCIONES -->
+    <div class="section">
+      <div class="section-title">// RESTRICCIONES</div>
+      <ol class="restrictions">
+        <li><span class="r-num">01</span> Solo puedes escribir código dentro de los bloques <code>// TODO</code> en <code>control-inventario.js</code>.</li>
+        <li><span class="r-num">02</span> No puedes importar librerías externas.</li>
+        <li><span class="r-num">03</span> No puedes modificar el HTML ni el CSS.</li>
+        <li><span class="r-num">04</span> Debes usar <code>var</code> o <code>let</code> para declarar variables locales dentro de las funciones.</li>
+        <li><span class="r-num">05</span> Solo puedes usar los métodos de arreglo vistos en clase: <code>find</code>, <code>filter</code>, <code>forEach</code> y bucles <code>for</code>.</li>
+      </ol>
+    </div>
+
+    <!-- SECCIÓN: RÚBRICA — TABLA RESUMEN -->
+    <div class="section">
+      <div class="section-title">// RÚBRICA DE CALIFICACIÓN — RESUMEN</div>
+      <table class="rubric-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Función</th>
+            <th>Conceptos evaluados</th>
+            <th style="text-align:center; width:80px;">Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td class="td-fn">calcularValorParte</td>
+            <td>Variables, operadores de multiplicación</td>
+            <td class="td-pts">15</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td class="td-fn">calcularTotalInventario</td>
+            <td>Recorrido de arreglos, acumulación</td>
+            <td class="td-pts">20</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td class="td-fn">registrarEntrada</td>
+            <td>Asignación, operador de suma</td>
+            <td class="td-pts">15</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td class="td-fn">registrarSalida</td>
+            <td>Condicionales, operador de resta, booleanos</td>
+            <td class="td-pts">25</td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td class="td-fn">calcularPorcentajeOcupacion</td>
+            <td>Operadores de división y multiplicación</td>
+            <td class="td-pts">15</td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td class="td-fn">verificarStockMinimo</td>
+            <td>Operadores de comparación, tipo Boolean</td>
+            <td class="td-pts">10</td>
+          </tr>
+          <tr class="tr-total">
+            <td colspan="3" style="text-align:right; letter-spacing:2px; font-size:11px;">PUNTAJE TOTAL</td>
+            <td class="td-pts-total">100</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- SECCIÓN: CRITERIOS INDIVIDUALES DETALLADOS -->
+    <div class="section">
+      <div class="section-title">// CRITERIOS INDIVIDUALES DETALLADOS</div>
+
+      <!-- CRITERIO 1 -->
+      <div class="criterio-block">
+        <div class="criterio-header">
+          <div>
+            <span style="font-size:9px; color:var(--text); letter-spacing:2px;">CRITERIO 1</span>
+            <span class="criterio-header__title"> — calcularValorParte</span>
+            <span class="criterio-header__fn">(parte)</span>
+          </div>
+          <span class="criterio-header__pts">15 pts</span>
+        </div>
+        <table class="indicadores-table">
+          <thead><tr><th>Indicador</th><th style="text-align:center; width:60px;">Pts</th></tr></thead>
+          <tbody>
+            <tr><td>Declara una variable para almacenar el resultado antes de retornar</td><td class="i-pts">5</td></tr>
+            <tr><td>Usa las dos propiedades correctas del objeto parte</td><td class="i-pts">5</td></tr>
+            <tr><td>Retorna un valor numérico correcto para cualquier parte del catálogo</td><td class="i-pts">5</td></tr>
+          </tbody>
+        </table>
+        <div class="subtable-title">ESCALA DE DESEMPEÑO</div>
+        <table class="escala-table">
+          <thead><tr><th style="width:70px;">Puntos</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="e-pts e-pts-full">15 pts</td><td>La función retorna el producto exacto para todas las partes.</td></tr>
+            <tr><td class="e-pts e-pts-mid">10 pts</td><td>La función calcula pero usa una propiedad incorrecta o retorna un tipo equivocado.</td></tr>
+            <tr><td class="e-pts e-pts-low">5 pts</td><td>Hay intención de multiplicar pero la sintaxis es incorrecta y la función no ejecuta.</td></tr>
+            <tr><td class="e-pts e-pts-none">0 pts</td><td>No hay implementación o el cuerpo está vacío.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CRITERIO 2 -->
+      <div class="criterio-block">
+        <div class="criterio-header">
+          <div>
+            <span style="font-size:9px; color:var(--text); letter-spacing:2px;">CRITERIO 2</span>
+            <span class="criterio-header__title"> — calcularTotalInventario</span>
+            <span class="criterio-header__fn">(listado)</span>
+          </div>
+          <span class="criterio-header__pts">20 pts</span>
+        </div>
+        <table class="indicadores-table">
+          <thead><tr><th>Indicador</th><th style="text-align:center; width:60px;">Pts</th></tr></thead>
+          <tbody>
+            <tr><td>Declara una variable acumuladora con valor numérico inicial</td><td class="i-pts">5</td></tr>
+            <tr><td>Recorre todos los elementos del arreglo usando un mecanismo de iteración</td><td class="i-pts">8</td></tr>
+            <tr><td>Acumula correctamente el valor de cada parte usando <code>calcularValorParte</code></td><td class="i-pts">7</td></tr>
+          </tbody>
+        </table>
+        <div class="subtable-title">ESCALA DE DESEMPEÑO</div>
+        <table class="escala-table">
+          <thead><tr><th style="width:70px;">Puntos</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="e-pts e-pts-full">20 pts</td><td>El total del panel inferior coincide con la suma manual de todos los valores.</td></tr>
+            <tr><td class="e-pts e-pts-mid">14 pts</td><td>Itera correctamente pero no llama a <code>calcularValorParte</code> o acumula con un error menor.</td></tr>
+            <tr><td class="e-pts e-pts-low">8 pts</td><td>Intenta iterar pero el acumulador no se inicializa correctamente o se sobreescribe.</td></tr>
+            <tr><td class="e-pts e-pts-none">0 pts</td><td>No hay implementación funcional.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CRITERIO 3 -->
+      <div class="criterio-block">
+        <div class="criterio-header">
+          <div>
+            <span style="font-size:9px; color:var(--text); letter-spacing:2px;">CRITERIO 3</span>
+            <span class="criterio-header__title"> — registrarEntrada</span>
+            <span class="criterio-header__fn">(idParte, cantidad)</span>
+          </div>
+          <span class="criterio-header__pts">15 pts</span>
+        </div>
+        <table class="indicadores-table">
+          <thead><tr><th>Indicador</th><th style="text-align:center; width:60px;">Pts</th></tr></thead>
+          <tbody>
+            <tr><td>Modifica correctamente la propiedad <code>cantidad</code> del objeto usando asignación</td><td class="i-pts">8</td></tr>
+            <tr><td>El nuevo valor no supera <code>capacidad_maxima</code></td><td class="i-pts">4</td></tr>
+            <tr><td>Retorna <code>true</code> al finalizar exitosamente</td><td class="i-pts">3</td></tr>
+          </tbody>
+        </table>
+        <div class="subtable-title">ESCALA DE DESEMPEÑO</div>
+        <table class="escala-table">
+          <thead><tr><th style="width:70px;">Puntos</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="e-pts e-pts-full">15 pts</td><td>La entrada se registra, el stock sube en el valor exacto, no excede el máximo, y el log aparece.</td></tr>
+            <tr><td class="e-pts e-pts-mid">10 pts</td><td>El stock se incrementa pero no valida el máximo o no retorna <code>true</code>.</td></tr>
+            <tr><td class="e-pts e-pts-low">5 pts</td><td>El objeto es encontrado pero la asignación es incorrecta (usa <code>==</code> en lugar de <code>=</code> u otro error).</td></tr>
+            <tr><td class="e-pts e-pts-none">0 pts</td><td>No hay implementación funcional.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CRITERIO 4 -->
+      <div class="criterio-block">
+        <div class="criterio-header">
+          <div>
+            <span style="font-size:9px; color:var(--text); letter-spacing:2px;">CRITERIO 4</span>
+            <span class="criterio-header__title"> — registrarSalida</span>
+            <span class="criterio-header__fn">(idParte, cantidad)</span>
+          </div>
+          <span class="criterio-header__pts">25 pts</span>
+        </div>
+        <table class="indicadores-table">
+          <thead><tr><th>Indicador</th><th style="text-align:center; width:60px;">Pts</th></tr></thead>
+          <tbody>
+            <tr><td>Verifica que el stock disponible sea suficiente antes de modificar</td><td class="i-pts">10</td></tr>
+            <tr><td>Retorna <code>false</code> sin modificar el stock cuando no hay suficiente cantidad</td><td class="i-pts">7</td></tr>
+            <tr><td>Modifica correctamente la propiedad <code>cantidad</code> cuando sí hay stock suficiente</td><td class="i-pts">5</td></tr>
+            <tr><td>Retorna <code>true</code> al finalizar exitosamente</td><td class="i-pts">3</td></tr>
+          </tbody>
+        </table>
+        <div class="subtable-title">ESCALA DE DESEMPEÑO</div>
+        <table class="escala-table">
+          <thead><tr><th style="width:70px;">Puntos</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="e-pts e-pts-full">25 pts</td><td>La salida modifica el stock solo cuando hay suficiente; el mensaje de error aparece cuando no hay; el log registra las operaciones exitosas.</td></tr>
+            <tr><td class="e-pts e-pts-mid">17 pts</td><td>La resta se ejecuta pero la validación previa está ausente o es incorrecta.</td></tr>
+            <tr><td class="e-pts e-pts-low">10 pts</td><td>Intenta restar pero el condicional de validación tiene un error de comparación.</td></tr>
+            <tr><td class="e-pts e-pts-low" style="color:#cc7700;">5 pts</td><td>El objeto es encontrado pero no hay intento de validar ni de restar.</td></tr>
+            <tr><td class="e-pts e-pts-none">0 pts</td><td>No hay implementación funcional.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CRITERIO 5 -->
+      <div class="criterio-block">
+        <div class="criterio-header">
+          <div>
+            <span style="font-size:9px; color:var(--text); letter-spacing:2px;">CRITERIO 5</span>
+            <span class="criterio-header__title"> — calcularPorcentajeOcupacion</span>
+            <span class="criterio-header__fn">(parte)</span>
+          </div>
+          <span class="criterio-header__pts">15 pts</span>
+        </div>
+        <table class="indicadores-table">
+          <thead><tr><th>Indicador</th><th style="text-align:center; width:60px;">Pts</th></tr></thead>
+          <tbody>
+            <tr><td>Aplica la operación aritmética correcta para obtener un porcentaje</td><td class="i-pts">8</td></tr>
+            <tr><td>El resultado es un número dentro del rango 0–100</td><td class="i-pts">4</td></tr>
+            <tr><td>La barra visual del panel derecho refleja visualmente el porcentaje</td><td class="i-pts">3</td></tr>
+          </tbody>
+        </table>
+        <div class="subtable-title">ESCALA DE DESEMPEÑO</div>
+        <table class="escala-table">
+          <thead><tr><th style="width:70px;">Puntos</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="e-pts e-pts-full">15 pts</td><td>La barra se llena proporcionalmente para todas las partes y el valor mostrado es correcto.</td></tr>
+            <tr><td class="e-pts e-pts-mid">10 pts</td><td>La fórmula es correcta pero el resultado está en escala 0-1 en lugar de 0-100, o viceversa.</td></tr>
+            <tr><td class="e-pts e-pts-low">5 pts</td><td>Hay división pero se usan las propiedades equivocadas del objeto.</td></tr>
+            <tr><td class="e-pts e-pts-none">0 pts</td><td>No hay implementación funcional.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CRITERIO 6 -->
+      <div class="criterio-block">
+        <div class="criterio-header">
+          <div>
+            <span style="font-size:9px; color:var(--text); letter-spacing:2px;">CRITERIO 6</span>
+            <span class="criterio-header__title"> — verificarStockMinimo</span>
+            <span class="criterio-header__fn">(parte)</span>
+          </div>
+          <span class="criterio-header__pts">10 pts</span>
+        </div>
+        <table class="indicadores-table">
+          <thead><tr><th>Indicador</th><th style="text-align:center; width:60px;">Pts</th></tr></thead>
+          <tbody>
+            <tr><td>Compara las propiedades correctas del objeto parte</td><td class="i-pts">5</td></tr>
+            <tr><td>Retorna un valor de tipo <code>Boolean</code> (no un string ni un número)</td><td class="i-pts">3</td></tr>
+            <tr><td>Las tarjetas del panel izquierdo cambian de color correctamente</td><td class="i-pts">2</td></tr>
+          </tbody>
+        </table>
+        <div class="subtable-title">ESCALA DE DESEMPEÑO</div>
+        <table class="escala-table">
+          <thead><tr><th style="width:70px;">Puntos</th><th>Descripción</th></tr></thead>
+          <tbody>
+            <tr><td class="e-pts e-pts-full">10 pts</td><td>Las tarjetas muestran el estado correcto para todas las partes y el filtro de alertas funciona.</td></tr>
+            <tr><td class="e-pts e-pts-mid">6 pts</td><td>Retorna <code>true</code>/<code>false</code> pero usa la propiedad incorrecta para comparar.</td></tr>
+            <tr><td class="e-pts e-pts-low">3 pts</td><td>La comparación existe pero retorna un número o string en lugar de booleano.</td></tr>
+            <tr><td class="e-pts e-pts-none">0 pts</td><td>No hay implementación funcional.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div><!-- /criterios individuales -->
+
+    <!-- SECCIÓN: ESCALA DE VALORACIÓN SENA -->
+    <div class="section">
+      <div class="section-title">// ESCALA DE VALORACIÓN SENA</div>
+      <table class="sena-table">
+        <thead>
+          <tr>
+            <th style="width:200px;">Rango de puntaje</th>
+            <th>Nivel de desempeño</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="sena-excelente">
+            <td class="s-range">90 – 100 pts</td>
+            <td style="font-weight:700;">Excelente</td>
+          </tr>
+          <tr class="sena-sobresaliente">
+            <td class="s-range">80 – 89 pts</td>
+            <td style="font-weight:700;">Sobresaliente</td>
+          </tr>
+          <tr class="sena-aceptable">
+            <td class="s-range">70 – 79 pts</td>
+            <td style="font-weight:700;">Aceptable</td>
+          </tr>
+          <tr class="sena-insuficiente">
+            <td class="s-range">60 – 69 pts</td>
+            <td style="font-weight:700;">Insuficiente</td>
+          </tr>
+          <tr class="sena-deficiente">
+            <td class="s-range">0 – 59 pts</td>
+            <td style="font-weight:700;">Deficiente</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /page-wrap -->
+
+  <footer class="page-footer">
+    ANDURIL INDUSTRIES · MACHINE SHOP INVENTORY · SENA 3406211 · LATTICE OS
+  </footer>
+
+</body>
+</html>
