@@ -1,132 +1,177 @@
-# Proyecto de Conocimiento — Inventario Machine Shop
-## Anduril Industries · SENA Formación 3406211
+# SpaceX Flight Control Center
+## Proyecto de Desempeño · SENA 3406211
 
 ---
 
-## ¿Qué es este proyecto?
+## Descripción
 
-Es una actividad de evaluación del módulo de JavaScript donde debes completar un sistema de inventario web ya parcialmente construido. La interfaz, los estilos y la lógica de navegación están listos. Tu trabajo es implementar las **6 funciones JavaScript** que realizan los cálculos de inventario.
-
----
-
-## Cómo ejecutar la aplicación
-
-No necesitas servidor ni instalación.
-
-1. Clona o descarga este repositorio en tu equipo.
-2. Abre el archivo `inventario_machineshop.html` directamente en tu navegador (doble clic o arrastrar a Chrome/Firefox/Edge).
-3. La aplicación cargará de inmediato.
-
-> Usa **F12 → Console** para ver errores en tiempo real mientras desarrollas.
+Herramienta web para el registro y monitoreo en tiempo real de lanzamientos espaciales de SpaceX. La interfaz está construida; el aprendiz debe implementar toda la lógica JavaScript para que la aplicación sea funcional.
 
 ---
 
-## Estructura de archivos
+## Estructura del Proyecto
 
 ```
-Proyecto_conocimiento/
-│
-├── inventario_machineshop.html   ← Interfaz. No modificar.
-│
+Proyecto_Desempeno/
+├── spacex_control_vuelos.html   ← Interfaz de usuario  (NO modificar)
 ├── css/
-│   └── styles-inventario.css    ← Estilos. No modificar.
-│
+│   └── styles-vuelos.css        ← Estilos             (NO modificar)
 ├── js/
-│   └── control-inventario.js    ← ✏ AQUÍ VA TU CÓDIGO
-│
-├── ENUNCIADO_RUBRICA.md         ← Instrucciones detalladas y rubrica
+│   └── control-vuelos.js        ← ✏️  Tu código va aquí
+├── ENUNCIADO.md                 ← Enunciado y rúbrica
 └── README.md                    ← Este archivo
 ```
 
 ---
 
-## Instrucciones paso a paso
+## Cómo Ejecutar
 
-### Paso 1 — Estudia la aplicación antes de tocar código
-
-Abre `inventario_machineshop.html` en el navegador. Observa:
-- El panel izquierdo muestra las partes pero algunas barras no cargan.
-- El panel inferior dice `$ ⚠ implementar función`.
-- El panel derecho muestra `⚠ implementar` en los campos de valor y porcentaje.
-- Al intentar registrar una entrada o salida, aparece un aviso de función no implementada.
-
-Eso es normal. Así debe verse **antes** de tu trabajo.
-
-### Paso 2 — Abre el archivo JS en tu editor
-
-```
-js/control-inventario.js
-```
-
-Localiza la sección marcada con el encabezado `TAREAS DEL APRENDIZ`. Encontrarás **6 funciones** con cuerpos vacíos y bloques de comentarios `// TODO`.
-
-### Paso 3 — Implementa cada función en orden
-
-Comienza por la Función 1 (`calcularValorParte`) ya que las demás dependen de ella. El comentario de cada función describe:
-- Qué recibe como parámetro
-- Qué debe retornar
-- Qué concepto de JavaScript aplica
-
-### Paso 4 — Verifica cada función en el navegador
-
-Después de implementar cada función, recarga la página (F5) y comprueba:
-
-| Función implementada | Qué cambia en la interfaz |
-|---|---|
-| `calcularValorParte` | Panel derecho muestra "VALOR EN STOCK" en dólares |
-| `calcularTotalInventario` | Barra inferior muestra el total del inventario |
-| `calcularPorcentajeOcupacion` | Barras de las tarjetas y del panel derecho se llenan |
-| `verificarStockMinimo` | Tarjetas cambian a naranja/rojo según el stock |
-| `registrarEntrada` | El botón "▲ REGISTRAR ENTRADA" funciona y el log aparece |
-| `registrarSalida` | El botón "▼ REGISTRAR SALIDA" funciona con validación |
-
-### Paso 5 — Prueba los casos límite
-
-Antes de entregar, verifica estos escenarios:
-- Registra una salida con una cantidad **mayor** al stock disponible → debe aparecer el mensaje de error en rojo.
-- Registra una entrada que lleve el stock **justo al máximo** → no debe superar `capacidad_maxima`.
-- Usa el filtro **"⚠ ALERTA"** del panel izquierdo → solo deben aparecer las partes en estado bajo stock o crítico.
+1. Abre `spacex_control_vuelos.html` directamente en Chrome o Firefox.
+2. No se requiere servidor, instalación ni configuración adicional.
+3. Activa las herramientas de desarrollo con **F12** → pestaña **Console** para depurar.
 
 ---
 
-## Conceptos JavaScript que aplica cada función
+## Archivo a Implementar
 
-| Función | Unidad de referencia | Concepto |
+Completa el archivo `js/control-vuelos.js`. Está dividido en **10 secciones** con comentarios que indican qué debes implementar en cada una. Trabaja las secciones en orden.
+
+---
+
+## IDs Disponibles en el HTML
+
+Usa estos IDs para acceder a los elementos desde JavaScript.
+
+| ID | Elemento HTML | Para qué sirve |
 |---|---|---|
-| `calcularValorParte` | Unidad 1 + Unidad 2 | `var`/`let`, operador `*` |
-| `calcularTotalInventario` | Unidad 3 | Arreglos, bucles, acumulación |
-| `registrarEntrada` | Unidad 1 | Asignación `=`, operador `+` |
-| `registrarSalida` | Unidad 1 + Unidad 2 | Asignación `=`, operador `-`, condicional `if` |
-| `calcularPorcentajeOcupacion` | Unidad 2 | Operadores `/` y `*` |
-| `verificarStockMinimo` | Unidad 2 | Operadores de comparación `<=`, tipo `Boolean` |
+| `reloj-principal` | `<span>` | Mostrar la hora UTC actualizada |
+| `contador-lanzamientos` | `<span>` | Total de vuelos (topbar) |
+| `form-lanzamiento` | `<form>` | Capturar el evento `submit` |
+| `input-nombre-serie` | `<input text>` | Leer el nombre de la serie |
+| `select-tipo-cohete` | `<select>` | Leer el tipo de cohete seleccionado |
+| `input-fecha-lanzamiento` | `<input datetime-local>` | Leer la fecha y hora programada |
+| `input-objetivo-mision` | `<input text>` | Leer el objetivo de la misión |
+| `input-id-edicion` | `<input hidden>` | ID del registro en modo edición |
+| `btn-registrar` | `<button submit>` | Botón principal del formulario |
+| `btn-cancelar-edicion` | `<button>` | Salir del modo edición |
+| `stat-pendientes` | `<span>` | Mostrar conteo de pendientes |
+| `stat-lanzados` | `<span>` | Mostrar conteo de lanzados |
+| `stat-cancelados` | `<span>` | Mostrar conteo de cancelados |
+| `stat-total` | `<span>` | Mostrar total general |
+| `grupo-filtros` | `<div>` | Contenedor de botones de filtro |
+| `contador-visibles` | `<span>` | Cantidad de tarjetas visibles |
+| `grid-lanzamientos` | `<div>` | Contenedor principal de tarjetas |
+| `estado-vacio` | `<div>` | Mensaje de lista vacía |
 
 ---
 
-## Reglas de entrega
+## Estructura de una Tarjeta
 
-1. Solo se califica el archivo `js/control-inventario.js`.
-2. No se aceptan modificaciones al HTML ni al CSS.
-3. No se permite el uso de librerías externas (jQuery, lodash, etc.).
-4. El código debe ejecutarse sin errores en la consola del navegador.
-5. Se entrega el archivo JS en la plataforma de aprendizaje o al instructor antes de la fecha indicada.
+Cada tarjeta que insertes en `#grid-lanzamientos` debe tener esta estructura:
+
+```html
+<article class="organism-launch-card organism-launch-card--[estado]"
+         data-id="[id]"
+         data-tipo="[tipo]"
+         data-estado="[estado]">
+
+  <div class="molecule-card-header">
+    <span class="molecule-card-header__id atom-mono">[ID]</span>
+    <span class="atom-badge atom-badge--[estado]">[ESTADO EN MAYÚSCULAS]</span>
+  </div>
+
+  <div class="molecule-card-body">
+    <div class="molecule-card-body__name">[NOMBRE SERIE]</div>
+    <div class="molecule-card-body__type">[TIPO DE COHETE]</div>
+    <div class="molecule-card-body__objective">[OBJETIVO]</div>
+    <div class="molecule-card-body__date atom-mono">[FECHA Y HORA]</div>
+  </div>
+
+  <div class="molecule-card-footer">
+    <button class="atom-btn atom-btn--secondary atom-btn--sm"
+            data-action="editar"
+            data-id="[id]">EDITAR</button>
+    <button class="atom-btn atom-btn--danger atom-btn--sm"
+            data-action="cancelar"
+            data-id="[id]">CANCELAR</button>
+  </div>
+
+</article>
+```
+
+Reemplaza `[estado]`, `[id]`, `[tipo]` y los demás campos con los valores reales de cada lanzamiento.
 
 ---
 
-## Errores frecuentes
+## Clases CSS para las Tarjetas
 
-| Error | Causa probable |
+| Clase | Descripción |
 |---|---|
-| `TypeError: calcularValorParte is not a function` | La función tiene un error de sintaxis y no se declaró |
-| `NaN` en el panel inferior | El acumulador no se inicializó con un valor numérico |
-| Barra de stock siempre al 100% | El porcentaje se calculó en escala 0-1, no 0-100 |
-| El stock baja aunque no hay suficiente | Falta el condicional de validación en `registrarSalida` |
-| Las alertas no aparecen | `verificarStockMinimo` retorna un string en lugar de `Boolean` |
+| `organism-launch-card` | Clase base obligatoria en toda tarjeta |
+| `organism-launch-card--pendiente` | Modificador visual: estado pendiente |
+| `organism-launch-card--lanzado` | Modificador visual: estado lanzado |
+| `organism-launch-card--cancelado` | Modificador visual: estado cancelado |
+| `is-hovered` | Activa la animación hover (agregar en `mouseover`, quitar en `mouseout`) |
+| `atom-badge--pendiente` | Badge color ámbar |
+| `atom-badge--lanzado` | Badge color azul |
+| `atom-badge--cancelado` | Badge color rojo |
 
 ---
 
-## Recursos de consulta
+## Atributos `data-` en las Tarjetas
 
-- Archivos de clase en `1_Clase_Variables/`, `2_Clases_Tipos_Datos/`, `3_Clases_Estructuras_Datos/`
-- Consola del navegador: **F12 → Console**
-- Depuración paso a paso: **F12 → Sources → establecer breakpoints**
-- Enunciado completo y rúbrica: `ENUNCIADO_RUBRICA.md`
+| Atributo | Valor | Para qué sirve |
+|---|---|---|
+| `data-id` | ID del lanzamiento | Identificar el registro al editar o cancelar |
+| `data-tipo` | `falcon` · `falcon-heavy` · `starship` | El CSS colorea el tipo según este valor |
+| `data-estado` | `pendiente` · `lanzado` · `cancelado` | El filtrado lee este atributo |
+
+---
+
+## Atributo `data-filter` en los Botones de Filtro
+
+Los botones del grupo `#grupo-filtros` ya tienen este atributo definido en el HTML:
+
+| Botón | `data-filter` |
+|---|---|
+| TODOS | `todos` |
+| PENDIENTE | `pendiente` |
+| LANZADO | `lanzado` |
+| CANCELADO | `cancelado` |
+
+Clase CSS del botón activo: `atom-btn--filter-active`
+
+---
+
+## Modelo del Objeto Lanzamiento (sugerido)
+
+```javascript
+{
+  id:       "SX-2026-001",         // String — identificador único generado
+  nombre:   "STARLINK-GROUP-9-1",  // String — nombre de la serie
+  tipo:     "falcon",              // String — falcon | falcon-heavy | starship
+  fecha:    "2026-05-30T14:30",    // String — valor del input datetime-local
+  objetivo: "Despliegue Starlink", // String — descripción del objetivo
+  estado:   "pendiente"            // String — pendiente | lanzado | cancelado
+}
+```
+
+---
+
+## Conceptos Evaluados
+
+| Unidad | Tema |
+|---|---|
+| 1 | Variables: `const`, `let` |
+| 2 | Tipos de datos: strings, numbers, booleans |
+| 3 | Estructuras: arrays de objetos |
+| 4 | Operadores: comparación, lógicos, ternario |
+| 5 | Funciones, arrow functions, `forEach`, `filter`, `find` |
+| 6 | `if/else`, `try/catch` |
+| 7 | DOM, eventos, `setInterval` |
+
+---
+
+## Consejo de Depuración
+
+Usa la consola del navegador (F12) para verificar el estado de tu almacén de datos en cualquier momento. Un `console.log` estratégico en cada función te ayudará a rastrear errores antes de que aparezcan en la interfaz.
